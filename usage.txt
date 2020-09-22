@@ -1,0 +1,3 @@
+python server.py -client_ids 1,2,3 -port XXXX
+
+python client.py -client_id 1 -server_ip <ipaddress> -port <port>
