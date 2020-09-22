@@ -42,7 +42,10 @@ def main():
 def cleanup_connections():
     for user in GlobalVars.all_users:
         if user.isConnected:
-            user.connection.close()
+            try:
+                user.connection.close()
+            except:
+                pass
 
 #this thread handles the actual connection to a client
 def thread_func(conn): 
