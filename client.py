@@ -16,16 +16,32 @@ def main():
         print("Connection Refused. Bad Client ID")
         sys.exit()
     #get old messages
-    #while True:
-     #   msg = s.recv(1024).decode()
-      #  if msg == "break":
-       #     print("You are up to date on messages")
-        #    break
-        #else: 
-         #   print(msg)
+    print("fetching older messages")
+    while True:
+        msg = s.recv(1024).decode()
+        #print(f"message: {msg}\n\n\n")
+        msgs = None
+        split_text = None
+        if "break1234567890" in msg:
+            split_text = msg.split("break1234567")
+            if len(split_text) > 1:
+                msgs = split_text[0].split("msg_break789")
+                for msg in msgs:
+                    print(msg)
+            print("Up to date with messages")
+            break
+        else: 
+            msgs = msg.split("msg_break789")
+            for msg in msgs:
+                print(msg)
+
+
+    #not that we have old messages, we will spawn a listening thread for new messages
+    #and loop to allow input of messages
     print("type a message and hit enter to send... type quit to quit")
     start_new_thread(thread_func, (s,))
     try:
+        #take input from user and send to server
         while True:
             the_input = input()
             if the_input == "quit":
@@ -34,9 +50,15 @@ def main():
             msg_to_send = the_input.encode('ascii')
             s.send(msg_to_send)
     except (KeyboardInterrupt, SystemExit):
-        sys.exit()
+        try:
+            s.close()
+            sys.exit()
+        except:
+            sys.exit()
     return
 
+
+#this function will listen for new messages from the server while the client is online
 def thread_func(conn):
     try:
         while True:
@@ -45,8 +67,14 @@ def thread_func(conn):
                 conn.close()
                 print("Connection to server is over.")
                 sys.exit(0)
+            else:
+                print(msg)
     except (KeyboardInterrupt, SystemExit):
-        sys.exit()
+        try:
+            conn.close()
+            sys.exit()
+        except:
+            sys.exit()
 
 
 if __name__ == "__main__":
