@@ -3,7 +3,7 @@ echo "starting Test 1: Alice sends a message, Chad and Bob come online after 5 s
 
 echo "Starting server in background."
 PORT_NUM=22105
-python3 server.py -client_ids Alice,Bob,Charlie -port $PORT_NUM &
+python3 server.py -client_ids Alice,Bob,Chad -port $PORT_NUM &
 
 sleep 3
 echo ""
@@ -19,6 +19,8 @@ echo "Done with Bob"
 
 echo ""
 echo "Bringing Chad Online"
-echo "quit" | python3 client.py -client_id Charlie -server_ip 127.0.0.1 -port $PORT_NUM
+echo "quit" | python3 client.py -client_id Chad -server_ip 127.0.0.1 -port $PORT_NUM
 echo "Done with Chad"
 
+echo "Killing server in the background"
+killall python3

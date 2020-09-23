@@ -2,6 +2,7 @@ import sys
 import socket
 from _thread import *
 import threading 
+import time
 
 def main():
     client_id_arg = sys.argv[2]
@@ -52,6 +53,10 @@ def main():
             if the_input == "quit":
                 print("Quitting Client Program")
                 sys.exit()
+            if the_input == "wait":
+                print("waiting")
+                while True:
+                    time.sleep(.5)
             msg_to_send = the_input.encode('ascii')
             s.send(msg_to_send)
     except (KeyboardInterrupt, SystemExit):
