@@ -3,5 +3,10 @@ python3 server.py -client_ids 1,2,3 -port XXXX
 python3 client.py -client_id 1 -server_ip <ipaddress> -port <port>
 
 for automated tests:
-./run_test1 <port_num>
-./run_test2 <port_num>
+./run_test1.sh <port_num> <server>
+./run_test2.sh <port_num> <server>
+
+for docker:
+from this directory - 
+build with "docker build -t dockerpython ."
+run with docker run dockerpython
