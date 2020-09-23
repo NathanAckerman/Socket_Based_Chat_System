@@ -67,13 +67,17 @@ def main():
 def thread_func(conn):
     try:
         while True:
-            msg = conn.recv(1024).decode()
-            if not msg:
+            try:
+                msg = conn.recv(1024).decode()
+                if not msg:
+                    conn.close()
+                    print("Connection to server is over.")
+                    sys.exit(0)
+                else:
+                    print(msg)
+            except:
                 conn.close()
-                print("Connection to server is over.")
-                sys.exit(0)
-            else:
-                print(msg)
+                sys.exit()
     except (KeyboardInterrupt, SystemExit):
         try:
             conn.close()
