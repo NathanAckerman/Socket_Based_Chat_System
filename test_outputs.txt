@@ -1,0 +1,97 @@
+RUNNING BOTH TESTS
+
+
+
+starting Test 1: Alice sends a message, Chad and Bob come online after 5 seconds to see it.
+Starting server in background.
+Starting server on port 34987 with clients ['Alice', 'Bob', 'Chad']
+
+Bringing Alice online to send message from test1_alice_input.txt
+Connection with Client Alice started
+fetching older messages
+Alice's console: 
+Up to date with messages
+type a message and hit enter to send... type quit to quit
+
+Printing Received Message At Server:
+Client ID - Alice
+Message ID - 0
+Text - I am the first message from alice
+
+Connection With Client Alice closed
+Done with Alice
+
+Bringing Bob Online
+Connection with Client Bob started
+fetching older messages
+Bob's console: Alice: I am the first message from alice
+Bob's console: 
+Up to date with messages
+type a message and hit enter to send... type quit to quit
+Quitting Client Program
+Connection With Client Bob closed
+Done with Bob
+
+Bringing Chad Online
+Connection with Client Chad started
+fetching older messages
+Chad's console: Alice: I am the first message from alice
+Chad's console: 
+Up to date with messages
+type a message and hit enter to send... type quit to quit
+Quitting Client Program
+Connection With Client Chad closed
+Done with Chad
+Killing server in the background
+
+
+starting Test 2: A,B, and C come online. B sends a message, then A sends a msg, then D comes online but is not given any messages
+Because the output from multiple background processes is hard to parse for users staying online, the output of a message that was received by a user is after something of the form client_id's console: 
+Starting server in background.
+Starting server on port 34988 with clients ['Alice', 'Bob', 'Chad']
+
+Bringing Alice online
+Connection with Client Alice started
+fetching older messages
+Alice's console: 
+Up to date with messages
+type a message and hit enter to send... type quit to quit
+waiting
+
+Bringing Chad Online
+Connection with Client Chad started
+fetching older messages
+Chad's console: 
+Up to date with messages
+type a message and hit enter to send... type quit to quit
+waiting
+
+Bringing Bob Online
+Bob will send message first
+Connection with Client Bob started
+fetching older messages
+Bob's console: 
+Up to date with messages
+type a message and hit enter to send... type quit to quit
+
+Printing Received Message At Server:
+Client ID - Bob
+Message ID - 0
+Text - I am the first message from Bob
+waiting
+
+Alice's console: Bob: I am the first message from Bob
+Chad's console: Bob: I am the first message from Bob
+Now alice needs to send her message
+
+Printing Received Message At Server:
+Client ID - Alice
+Message ID - 1
+Text - I am the second message from Alice
+
+Chad's console: Alice: I am the second message from Alice
+Bob's console: Alice: I am the second message from Alice
+Connection With Client Alice closed
+Connection With Client Chad closed
+Connection With Client Bob closed
+Killing server in the background
