@@ -2,7 +2,7 @@
 echo "starting Test 1: Alice sends a message, Chad and Bob come online after 5 seconds to see it."
 
 echo "Starting server in background."
-PORT_NUM=22105
+PORT_NUM=$1
 python3 server.py -client_ids Alice,Bob,Chad -port $PORT_NUM &
 
 sleep 3
