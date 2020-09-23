@@ -115,7 +115,7 @@ class Message():
         self.msg_id = the_msg_id
 
     def __str__(self):
-        the_str = "\nPrinting Received Message:\n"
+        the_str = "\nPrinting Received Message At Server:\n"
         the_str += "Client ID - " + self.sender + "\n"
         the_str += "Message ID - " + str(self.msg_id) +"\n"
         the_str += "Text - " + self.text + "\n"

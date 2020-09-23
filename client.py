@@ -28,19 +28,19 @@ def main():
             if len(split_text) > 1:
                 msgs = split_text[0].split("msg_break789")
                 for msg in msgs:
-                    print(msg)
+                    print(f"{client_id_arg}'s console: {msg}")
             print("Up to date with messages")
             break
         else: 
             msgs = msg.split("msg_break789")
             for msg in msgs:
-                print(msg)
+                print(f"{client_id_arg}'s console: {msg}")
 
 
     #not that we have old messages, we will spawn a listening thread for new messages
     #and loop to allow input of messages
     print("type a message and hit enter to send... type quit to quit")
-    start_new_thread(thread_func, (s,))
+    start_new_thread(thread_func, (s,client_id_arg,))
     try:
         #take input from user and send to server
         while True:
@@ -48,15 +48,18 @@ def main():
             try:
                 the_input = input()
             except EOFError:
-                print("Quitting")
+                #print("Quitting")
                 sys.exit()
             if the_input == "quit":
                 print("Quitting Client Program")
                 sys.exit()
             if the_input == "wait":
                 print("waiting")
-                while True:
+                counter = 0
+                while counter < 10:
                     time.sleep(.5)
+                    counter += 1
+                continue
             msg_to_send = the_input.encode('ascii')
             s.send(msg_to_send)
     except (KeyboardInterrupt, SystemExit):
@@ -69,7 +72,7 @@ def main():
 
 
 #this function will listen for new messages from the server while the client is online
-def thread_func(conn):
+def thread_func(conn, client_id):
     try:
         while True:
             try:
@@ -79,7 +82,7 @@ def thread_func(conn):
                     print("Connection to server is over.")
                     sys.exit(0)
                 else:
-                    print(msg)
+                    print(f"{client_id}'s console: {msg}")
             except:
                 conn.close()
                 sys.exit()
