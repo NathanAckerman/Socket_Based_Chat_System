@@ -144,9 +144,7 @@ def push_to_user(user):
         msg = GlobalVars.all_msgs[last_msg+1]
         user.last_msg_id_seen = msg.msg_id
         if msg.sender == user.client_id:
-            print("not sending back to user")
             return
-        print("sending to other user")
         the_msg = str(msg.sender) + ": " + msg.text
         user.connection.send(the_msg.encode('ascii'))
 

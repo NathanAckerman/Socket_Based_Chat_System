@@ -43,9 +43,14 @@ def main():
     try:
         #take input from user and send to server
         while True:
-            the_input = input()
-            if the_input == "quit":
+            the_input = None
+            try:
+                the_input = input()
+            except EOFError:
                 print("Quitting")
+                sys.exit()
+            if the_input == "quit":
+                print("Quitting Client Program")
                 sys.exit()
             msg_to_send = the_input.encode('ascii')
             s.send(msg_to_send)
