@@ -23,7 +23,11 @@ def main():
 
     #set up socket to listen on
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(("", int(port_arg)))
+    try:
+        sock.bind(("", int(port_arg)))
+    except:
+        print("OS won't give this port at this time, try another one")
+        sys.exit()
     sock.listen(len(clients_list)+5)
     try:
         #infinite loop to accept connections
@@ -89,14 +93,14 @@ def thread_func(conn):
 
     while True: 
         data = conn.recv(1024).decode() 
-        if not data: 
+        if not data: #if conn is broken
             GlobalVars.global_lock.acquire()
             print(f'Connection With Client {client_id} closed') 
             the_user.isConnected = False
             the_user.connection = None
             GlobalVars.global_lock.release()
             break
-        else:
+        else:#else we got a msg from the user
             GlobalVars.global_lock.acquire()
             the_msg = Message(client_id, data, GlobalVars.next_msg_id)
             print(the_msg)
@@ -131,11 +135,14 @@ class User():
         self.last_msg_id_seen = -1
 
 #lock is already acquired when this is called
+#for each user, give them the update for new msg
 def push_messages():
     for user in GlobalVars.all_users:
         push_to_user(user)
     return
 
+#give user the last msg if they are online
+#if they are online, they are already up to date up until the last msg
 def push_to_user(user):
     if not user.isConnected:
         return
@@ -153,8 +160,9 @@ def push_to_user(user):
 def update_user(the_user):
     last_msg = the_user.last_msg_id_seen
     if last_msg < GlobalVars.next_msg_id - 1:
-        for msg in GlobalVars.all_msgs:#TODO can we start at index of last msg
+        for msg in GlobalVars.all_msgs:
             if msg.msg_id > last_msg:
+                #each msg is broken up by this text so that we can send multiuple msgs in one buffer
                 break_text = str(msg.sender)+": "+msg.text+"msg_break789"
                 the_user.connection.send(break_text.encode('ascii'))
                 the_user.last_msg_id_seen = msg.msg_id

@@ -16,22 +16,23 @@ def main():
     if accept_msg == "REFUSE":
         print("Connection Refused. Bad Client ID")
         sys.exit()
-    #get old messages
+    #get old messages from server
     print("fetching older messages")
     while True:
         msg = s.recv(1024).decode()
-        #print(f"message: {msg}\n\n\n")
         msgs = None
         split_text = None
+        #this msg means we are up to date
         if "break1234567890" in msg:
             split_text = msg.split("break1234567")
+            #if there are other messages bundled with the end msg
             if len(split_text) > 1:
                 msgs = split_text[0].split("msg_break789")
                 for msg in msgs:
                     print(f"{client_id_arg}'s console: {msg}")
             print("Up to date with messages")
             break
-        else: 
+        else: #all msgs are valid msgs and there will be more
             msgs = msg.split("msg_break789")
             for msg in msgs:
                 print(f"{client_id_arg}'s console: {msg}")
@@ -45,10 +46,9 @@ def main():
         #take input from user and send to server
         while True:
             the_input = None
-            try:
+            try:#this try/except is needed when reading msgs in from file
                 the_input = input()
             except EOFError:
-                #print("Quitting")
                 sys.exit()
             if the_input == "quit":
                 print("Quitting Client Program")
@@ -77,7 +77,7 @@ def thread_func(conn, client_id):
         while True:
             try:
                 msg = conn.recv(1024).decode()
-                if not msg:
+                if not msg:#if connection is broken
                     conn.close()
                     print("Connection to server is over.")
                     sys.exit(0)

@@ -1,6 +1,8 @@
 python3 server.py -client_ids 1,2,3 -port XXXX
 
 python3 client.py -client_id 1 -server_ip <ipaddress> -port <port>
+input for clients can be from a file, redirected through stdin
+msgs can be sent from command line after client is started by typing msg and hitting enter
 
 for automated tests:
 ./run_test1.sh <port_num> <server>
